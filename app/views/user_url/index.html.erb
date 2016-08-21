@@ -1,0 +1,133 @@
+<% title('حسابك') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+      <div class="dashboard">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="shorten-url-form">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5 class="panel-title">إختصِر رابط جديد</h5>
+                </div>
+
+                <div class="panel-body">
+                  <%= form_for @user_url, url: dashboard_path, method: :post, remote: true do |f| %>
+                    <div class="form-group">
+                      <%= f.label :url, 'رابطك' %>
+                      <%= f.text_field :url, autofocus: true, id: 'shorten_url_form_auto_focus', class: 'form-control txt-main', required: :required, placeholder: 'example.com' %>
+                    </div>
+                  
+                    <div class="form-group">
+                      <%= f.label :title, 'العنوان' %>
+                      <%= f.text_field :title, class: 'form-control txt-main', maxlength: 200 %>
+                    </div>
+                  
+                    <%= f.label :password, 'كلمة مرور' %>
+                    <%= f.text_field :password, class: 'form-control txt-main', maxlength: 100 %>
+                </div>
+
+                <div class="panel-footer">
+                    <%= f.submit 'إختصِر', class: 'btn btn-main btn-md btn-submit-user-form', form: 'new_user_url', data: { disable_with: 'يرجى الإنتظار...' }, onclick: "$('#new_user_url').submit();" %>
+                    <span class="error-shorten-form-msg">خطأ في إدخال بيانات رابطك.</span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 col-md-6">
+            <div class="text-center top-pagination">
+              <%= paginate @user_urls, :window => 1 %>
+            </div>
+            
+            <div class="user-urls">
+              <% if current_user.user_urls.count == 0 %>
+                <h1>لم تقم بإختصار أي رابط إلى الأن!!</h1>
+                <h2>ابدأ التجربة وإختصِر رابطك الأول</h2>
+              <% end %>
+              
+              <% @user_urls.each do |url| %>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h5 class="panel-title"><%= url.title.blank? ? url.url : url.title %></h5>
+                  </div>
+
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <p>رابطك</p>
+                          </div>
+                          
+                          <div class="col-lg-6">
+                            <p class="user-url"><%= link_to url.url, url.url, target: '_blank' %></p>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <p>الإختصار</p>
+                          </div>
+                          
+                          <div class="col-lg-6">
+                            <p><%= link_to sanitize('ekhtsr.in/<span style="color: red">' + url.unique_id + '</span>'), 'http://ekhtsr.in/' + url.unique_id, target: '_blank' %></p>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <p>عدد الزيارات</p>
+                          </div>
+                          
+                          <div class="col-lg-6">
+                            <p><%= url.visit_counter %></p>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <p>كلمة المرور</p>
+                          </div>
+                          
+                          <div class="col-lg-6">
+                            <p class="url-password mobile-margin-only"><%= url.password.blank? ? 'لم يتم وضع كلمة مرور' : url.password %></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="panel-footer">
+                    <%= url.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %>
+                    <span style="float: right;"><%= link_to sanitize('<i class="fa fa-pencil"></i> &middot; تعديل'), { :action => 'edit', :id => url.id }, method: :get, class: "btn btn-primary btn-xs" %> &middot; <%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { :action => 'destroy', :id => url.id }, method: :delete, data:{confirm: "هل أنت متأكد من حذفك لهذا الرابط؟"}, class: "btn btn-danger btn-xs", remote: true, onclick: 'deleteUrl(this)' %></span>
+                  </div>
+                </div>
+              <% end %>
+              
+              <div class="text-center bottom-pagination">
+                <%= paginate @user_urls, :window => 1 %>
+              </div>
+              
+              <script>
+                $('.user-urls div:nth-of-type(1) .panel-body').slideDown();
+                $('.user-urls div:nth-of-type(1) .panel-footer').slideDown();
+                
+                $('.user-urls').on('click', '.panel-heading', function(){
+                  $(this).next().slideToggle();
+                  $(this).next().next().slideToggle();
+                });
+                
+                function deleteUrl(elm) {
+                  $(elm).parents().eq(2).slideUp(1000).remove();
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

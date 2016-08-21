@@ -1,0 +1,2 @@
+module AnonymousUrlHelper
+end

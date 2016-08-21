@@ -1,0 +1,10 @@
+$('.sign_in_modal .modal').modal('hide');
+$('.header h1').after('<p class="username">يـ <%= current_user.username.capitalize %></p><a class="btn btn-main btn-lg" href="" tabindex="-1">إبدأ في إستخدام حسابِك الآن !!</a>');
+$('.sign_up_and_in').remove();
+$('.try-shorten').remove();
+$('.navbar-nav').append('<li><a tabindex="-1" href="/dashboard">حسابك</a></li>');
+<% if current_user.admin? %>
+  $('.navbar-nav').append('<li><%= link_to sanitize('<i class="fa fa-user-secret fa-lg"></i><span style="display: none;" class="user-secret-text"> لوحة التحكم</span>'), admin_root_path, :tabindex => -1, title: "لوحة التحكم" %></li>');
+<% end %>
+$('.navbar-nav').append('<li><a tabindex="-1" title="تعديل بيانات حسابك" href="/users/edit"><i class="fa fa-cog fa-lg"></i><span style="display: none;" class="cog-text">تعديل بيانات حسابك</span></a></li>');
+$('.navbar-nav').append('<li><%= link_to sanitize('<i class="fa fa-sign-out fa-lg"></i><span style="display: none;" class="sign-out-text">تسجيل الخروج</span>'), users_sign_out_path, :method => :delete, :tabindex => -1, title: "تسجيل الخروج" %></li>');

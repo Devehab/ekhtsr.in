@@ -1,0 +1,221 @@
+<% title("لوحة التحكم") %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="control-panel">
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">المدراء</h4>
+              </div>
+
+              <div class="panel-body admins">
+                <div class="table-responsive">
+                  <table class="table table-striped table-condensed table-bordered">
+                    <tr>
+                      <th>المعرف</th>
+                      <th>اسم المستخدم</th>
+                      <th>تسجيلات الدخول</th>
+                      <th>أخر تسجيل دخول</th>
+                      <th>أنشئ بتاريخ</th>
+                      <th>أخر IP لتسجيل الدخول</th>
+                    </tr>
+
+                    <% @admins.each do |admin| %>
+                      <tr>
+                        <td><%= admin.id %></td>
+                        <td><%= link_to admin.username, edit_admin_user_path(admin) %></td>
+                        <td><%= admin.sign_in_count %></td>
+                        <% unless admin.last_sign_in_at.nil? %>
+                          <td><%= admin.last_sign_in_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                        <% else %>
+                          <td>أبداً</td>
+                        <% end %>
+                        <td><%= admin.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                        <td><%= admin.last_sign_in_ip %></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">أخر تسجيلات الدخول</h4>
+              </div>
+
+              <div class="panel-body last_signins">
+                <div class="table-responsive">
+                  <table class="table table-striped table-condensed">
+                    <% @last_signins.each do |user| %>
+                      <tr>
+                        <td><%= link_to user.username, edit_admin_user_path(user) %></td>
+                        <td>
+                          <% unless user.last_sign_in_at.nil? %>
+                            <%= user.last_sign_in_at.strftime("%Y-%m-%d <|> %H:%M:%S") %>
+                          <% else %>
+                            أبداً
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">أخر التسجيلات</h4>
+              </div>
+
+              <div class="panel-body last_signups">
+                <div class="table-responsive">
+                  <table class="table table-striped table-condensed">
+                    <% @last_signups.each do |user| %>
+                      <tr>
+                        <td><%= link_to user.username, edit_admin_user_path(user) %></td>
+                        <td><%= user.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <p class="lead">عدد المستخدمين المسجلين في الموقع:</p>
+            <h4><%= link_to "المستخدمين", admin_users_path %> <small>- <%= "#{@users_count} مستخدم" %></small></h4>
+            <hr />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8 col-md-8">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">أخر الروابط العشوائية المختصرة</h4>
+              </div>
+
+              <div class="panel-body last_a_urls">
+                <div class="table-responsive">
+                  <table class="table table-striped table-condensed table-bordered">
+                    <tr>
+                      <th>الرابط</th>
+                      <th>عدد الزيارات</th>
+                      <th>التوقيت</th>
+                      <th>حذف</th>
+                    </tr>
+
+                    <% @last_a_urls.each do |url| %>
+                      <tr>
+                        <td><a href="<%= url.url %>" target="_blank"><%= url.url %></a></td>
+                        <td><%= url.visit_counter %></td>
+                        <td><%= url.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                        <td><%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { :action => 'destroy_a_url', :id => url.id, controller: :urls }, method: :delete, data:{confirm: "هل أنت متأكد من حذفك لهذا الرابط؟"}, class: "btn btn-danger btn-xs" %></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <p class="lead">عدد الروابط العشوائية المختصرة في الموقع:</p>
+            <h4><%= link_to "الروابط", admin_urls_a_urls_list_path %> <small>- <%= "#{@a_urls_count} رابط" %></small></h4>
+            <hr />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8 col-md-8">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">أخر روابط المستخدمين المختصرة</h4>
+              </div>
+
+              <div class="panel-body last_urls">
+                <div class="table-responsive">
+                  <table class="table table-striped table-condensed table-bordered">
+                    <tr>
+                      <th>الرابط</th>
+                      <th>عدد الزيارات</th>
+                      <th>التوقيت</th>
+                      <th>المستخدم</th>
+                      <th>حذف</th>
+                    </tr>
+
+                    <% @last_urls.each do |url| %>
+                      <tr>
+                        <td><a href="<%= url.url %>" target="_blank"><%= url.title.blank? ? url.url : url.title %></a></td>
+                        <td><%= url.visit_counter %></td>
+                        <td><%= url.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                        <td><%= link_to url.user.username, edit_admin_user_path(url.user) %></td>
+                        <td><%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { :action => 'destroy_url', :id => url.id, controller: :urls }, method: :delete, data:{confirm: "هل أنت متأكد من حذفك لهذا الرابط؟"}, class: "btn btn-danger btn-xs" %></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <p class="lead">عدد روابط المستخدمين المختصرة في الموقع:</p>
+            <h4><%= link_to "الروابط", admin_urls_urls_list_path %> <small>- <%= "#{@urls_count} رابط" %></small></h4>
+            <hr />
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-8 col-md-8">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">أخر الرسائل المستقبله</h4>
+              </div>
+
+              <div class="panel-body last_urls">
+                <div class="table-responsive">
+                  <table class="table table-striped table-condensed table-bordered">
+                    <tr>
+                      <th>اسم المرسل</th>
+                      <th>البريد الإلكتروني</th>
+                      <th>التوقيت</th>
+                      <th>عرض</th>
+                    </tr>
+
+                    <% @last_messages.each do |message| %>
+                      <tr>
+                        <td><%= message.name %></td>
+                        <td><%= message.email %></td>
+                        <td><%= message.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                        <td><%= link_to sanitize('<i class="fa fa-eye"></i> &middot; عرض'), { action: :show, id: message.id, controller: :messages }, class: 'btn btn-xs btn-primary' %></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <p class="lead">عدد الرسائل المستقبله في الموقع:</p>
+            <h4><%= link_to "الرسائل", admin_messages_path %> <small>- <%= "#{@messages_count} رسالة" %></small></h4>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

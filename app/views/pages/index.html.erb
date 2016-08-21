@@ -1,0 +1,311 @@
+<% title('مرحبًا') %>
+
+<!-- HEADER -->
+  <div class="header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <h1 class="wow fadeInDown">أهلا بك في إختصرني</h1>
+          
+          <% if user_signed_in? %>
+            <p class="wow fadeInDown username" data-wow-delay="0.15s">يـ <%= current_user.username %></p>
+          <%= link_to 'إبدأ في إستخدام حسابِك الآن !!', dashboard_path, class: 'btn btn-main btn-lg wow fadeInUp', 'data-wow-delay' => "0.2s", tabindex: -1 %>
+          <% end %>
+
+          <% unless user_signed_in? %>
+            <div class="try-shorten">
+              <p class="wow fadeInDown" data-wow-delay="0.4s">جرّب إختصار الروابط الأن</p>
+
+              <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3 wow fadeInDown" data-wow-delay="0.4s">
+                <%= form_for @anonymous_url, url: a_path, method: :post, remote: true do |f| %>
+                  <div class="input-group">
+                    <%= f.text_field :url, autofocus: true, class: 'form-control txt-main shorten-url-text-box', tapindex: 1, required: :required, autocomplete: "off", placeholder: 'example.com' %>
+
+                    <div class="input-group-btn">
+                      <%= f.submit 'إختصِر', class: 'btn btn-main btn-shorten', data: { disable_with: "يرجى الإنتظار..." } %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+              
+              <script>            
+                $('.shorten-url-text-box').keydown(function(){
+                  $('.shorten-url-text-box').css("color", "black");
+                });
+              </script>
+            </div>
+          <% end %>
+          
+          <div class="sign_up_and_in">
+            <% unless user_signed_in? %>
+              <p class="wow fadeIn" data-wow-delay="0.9s">أو قم بـ</p>
+
+              <ul class="list-inline">
+                <li><%= link_to 'تسجيل الدخول', '', class: 'btn btn-main btn-lg wow bounceInLeft', 'data-wow-delay' => "0.9s", tabindex: -1,
+    "data-toggle" => "modal", "data-target" => "#sign_in" %></li>
+                <li><%= link_to 'تسجيل حساب جديد', '', class: 'btn btn-main btn-lg wow bounceInRight', 'data-wow-delay' => "0.9s", tabindex: -1,
+                        "data-toggle" => "modal", "data-target" => "#sign_up" %></li>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- END HEADER -->
+
+<% unless user_signed_in? %>
+  <!-- SIGN_IN_MODAL -->
+    <div class="sign_in_modal">
+      <div class="modal fade" id="sign_in" tabindex="-1" role="dialog" aria-labelledby="sign_in">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">تسجيل الدخول</h4>
+            </div>
+            <div class="modal-body">
+              <%= form_for(resource, as: resource_name, url: users_sign_in_path, remote: true) do |f| %>
+                <div class="form-group">
+                  <%= f.label :username, 'اسم المستخدم' %>
+                  <%= f.text_field :username, autofocus: true, class: 'form-control txt-main', id: 'sign_in_auto_focus', required: :required, maxlength: 16 %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :password, 'كلمة المرور' %>
+                  <%= f.password_field :password, autocomplete: "off", class: 'form-control txt-main', required: :required, maxlength: 128 %>
+                </div>
+
+                <% if devise_mapping.rememberable? -%>
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me, 'حفظ تسجيل الدخول؟' %>
+                <% end -%>
+            </div>
+            <div class="modal-footer">
+                <%= f.submit "دخول", class: 'btn btn-main btn-md', form: 'new_user' %>
+                <%= link_to 'نسيت كلمة المرور؟', users_password_edit_path, class: 'btn btn-md btn-link' %>
+                <span class="error-sign-in-msg">خطأ في إدخال اسم المستخدم أو كلمة المرور.</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $('#sign_in').on('shown.bs.modal', function () {
+        $('#sign_in_auto_focus').focus()
+      })
+    </script>
+  <!-- END SIGN_IN_MODAL -->
+
+  <!-- SIGN_UP_MODAL -->
+    <div class="sign_up_modal">
+      <div class="modal fade" id="sign_up" tabindex="-1" role="dialog" aria-labelledby="sign_up">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">تسجيل حساب جديد</h4>
+            </div>
+            <div class="modal-body">
+              <%= form_for(resource, as: resource_name, url: user_registration_path, remote: true, id: 'create_user') do |f| %>
+                <div class="form-group">
+                  <%= f.label :username, 'اسم المستخدم' %>
+                  <%= f.text_field :username, autofocus: true, class: 'form-control txt-main', id: 'sign_up_auto_focus', required: :required, maxlength: 16 %>
+                  <p class="reg-info text-right">يجب أن يتكوّن من 3 إلى 16 خانة [أ-ي - A-Z - a-z].</p>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :password, 'كلمة المرور' %>
+                  <%= f.password_field :password, autocomplete: "off", class: 'form-control txt-main', required: :required, maxlength: 128 %>
+                  <p class="reg-info text-right">يجب أن تتكون كلمة المرور من 6 خانات أو أكثر.</p>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :password_confirmation, 'تأكيد كلمة المرور' %>
+                  <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control txt-main', required: :required, maxlength: 128 %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :question_num, 'سؤال الأمان' %>
+                  <%= f.select :question_num, [['ما هو اسم أول مدرس أعطاك علامة الرسوب؟', 1], 
+                                               ['ما هو المكان الذي تم عقد زفافك فيه؟', 2], 
+                                               ['ما هي أقرب بلدة يعيش فيها قريب لك؟', 3], 
+                                               ['في أي وقت من اليوم ولِدت؟', 4], 
+                                               ['ما هو لقبك في الطفولة؟', 5], 
+                                               ['ما هي الدولة أو المدينة التي عملت فيها لأول مرة؟', 6], 
+                                               ['ما هو الرقم الثالث والخامس والسابع من رقم هاتفك؟', 7],
+                                               ['من كان بطل طفولتك؟', 8], 
+                                               ['ما هو أفضل موقع تستخدمه؟', 9], 
+                                               ['ما هو رقم جواز سفرك؟', 10]], {:include_blank => 'قم بإختيار سؤال أمان'}, { class: 'form-control txt-main', required: :required } %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :answer, 'الإجابة' %>
+                  <%= f.text_field :answer, class: 'form-control txt-main', required: :required, maxlength: 50 %>
+                  <p class="reg-info text-right">50 حرفًا على الأكثر.</p>
+                </div>
+
+                <center>
+                  <%= recaptcha_tags %>
+                </center>
+            </div>
+            <div class="modal-footer">
+                <%= f.submit "تسجيل", class: 'btn btn-main btn-md' %>
+                <span class="error-sign-up-msg"></span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $('#sign_up').on('shown.bs.modal', function () {
+        $('#sign_up_auto_focus').focus()
+      })
+    </script>
+  <!-- END SIGN_UP_MODAL -->
+<% end %>
+
+<!-- FEATURES -->
+  <div id="features" class="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <h1>مميزات الموقع</h1>
+          <p>شاهد الأسباب التي تجعلك تستخدم <span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span></p>
+          
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="wow fadeIn" data-wow-delay="0.5s">
+                <i class="fa fa-mouse-pointer fa-3x"></i>
+                <h4>إستعمله بدون قيود</h4>
+                <p>يمكنك إستخدام <span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span> بدون تسجيل حساب جديد والإستمتاع بالخدمة الرائعة.</p>
+              </div>
+
+              <div class="wow fadeIn" data-wow-delay="0.7s">
+                <i class="fa fa-database fa-3x"></i>
+                <h4>إحتفظ بكل بياناتك</h4>
+                <p>قم بإنشاء حساب علي الموقع إحتفظ عليه بجميع بياناتك وإرجع إليها في أي وقت ومن أي مكان.</p>
+              </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-4">
+              <div class="wow fadeIn" data-wow-delay="0.1s">
+                <i class="fa fa-key fa-3x"></i>
+                <h4>قم بتأمين روابطك</h4>
+                <p>يمكنك حماية روابطك بوضع كلمة مرور لها كلاً علي حِدى وإعطاء كلمة المرور لمن تحب.</p>
+              </div>
+              
+              <div class="wow fadeIn" data-wow-delay="1.1s">
+                <i class="fa fa-bar-chart-o fa-3x"></i>
+                <h4>تابع روابطك</h4>
+                <p>تابع كل الروابط التي تقوم بإختصارها وعدد النقرات التي تمت عليها.</p>
+              </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-4">
+              <div class="wow fadeIn" data-wow-delay="0.9s">
+                <i class="fa fa-thumbs-o-up fa-3x"></i>
+                <h4>إحتفظ بخصوصيتك</h4>
+                <p>في <span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span> نحترم خصوصيتك حيث أنه لا يمكن لأحد الإطلاع على بياناتك أو الولوج إليها.</p>
+              </div>
+                
+              <div class="wow fadeIn" data-wow-delay="0.3s">
+                <i class="fa fa-usd fa-3x"></i>
+                <h4>مجاني!</h4>
+                <p><span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span> مجاني وغير ربحي ولا يستعمل أي إعلانات على الروابط ولا داخل الموقع.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- END FEATURES -->
+
+<!-- REVIEWS -->
+  <div id="reviews" class="reviews">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <h1>قيل عنّا</h1>
+          <p>إقرأ أراء الناس عن موقع <span class="sq-black">"</span>إختصرني<span class="sq-black">"</span></p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-4 col-md-4 wow fadeIn" data-wow-delay="0.1s">
+          <blockquote>
+            <p>موقع <span class="sq-black">"</span>إختصرني<span class="sq-black">"</span> رائع للإستعمال الشخصي فهو لا يستعمل الإعلانات للربح ويوفّر الوقت عند التعامل مع الأصدقاء.</p><footer>ملاك طاهر | <city>مراكش، المغرب</city></footer>
+          </blockquote>
+        </div>
+
+        <div class="col-lg-4 col-md-4 wow fadeIn" data-wow-delay="0.3s">
+          <blockquote>
+            <p>لم أتوقف عن إستخدام <span class="sq-black">"</span>إختصرني<span class="sq-black">"</span> فهو يوفّر ميزة كلمات المرور على الروابط وهي مفيدة جدًا بالنسبة لي.</p><footer>سعيد السيد | <city>القاهرة، مصر</city></footer>
+          </blockquote>
+        </div>
+
+        <div class="col-lg-4 col-md-4 wow fadeIn" data-wow-delay="0.5s">
+          <blockquote>
+            <p>أنا أستخدم <span class="sq-black">"</span>إختصرني<span class="sq-black">"</span> لإختصار الروابط في شروحاتي على يوتيوب فهو مفيد ويريح المشاهدين، أنصح بإستخدامه.</p><footer>عوام عبد النبي | <city>بنغازي، ليبيا</city></footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- END REVIEWS -->
+
+<!-- CONTACT -->
+  <div id="contact" class="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <h1>تواصل معنا</h1>
+          <p>تواصل معنا من الموقع مباشرة:</p>
+          
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+              <div class="contact-form">
+                <%= form_for(@message, as: :message, url: message_path, method: :post, remote: true) do |f| %>
+                  <div class="form-group">
+                    <%= f.label :name, 'الاسم الكريم', class: 'wow fadeIn', "data-wow-delay" => "0.1s" %>
+                    <%= f.text_field :name, class: 'form-control txt-main wow fadeIn', id: 'contact_form_auto_focus', "data-wow-delay" => "0.25s", required: :required, maxlength: 100 %>
+                    <p class="reg-info text-right wow fadeIn" data-wow-delay="0.25s">يجب أن يتكوّن من [أ-ي - A-Z - a-z].</p>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.label :email, 'بريدك الإلكتروني', class: 'wow fadeIn', "data-wow-delay" => "0.4s" %>
+                    <%= f.email_field :email, class: 'form-control txt-main wow fadeIn', "data-wow-delay" => "0.55s", required: :required, maxlength: 100 %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.label :content, 'محتوى الرسالة', class: 'wow fadeIn', "data-wow-delay" => "0.8s" %>
+                    <%= f.text_area :content, class: 'form-control txt-main wow fadeIn', "data-wow-delay" => "0.95s", required: :required, rows: 10 %>
+                  </div>
+
+                  <%= f.submit 'أرسِل', class: 'btn btn-main btn-md wow fadeIn', "data-wow-delay" => "1.1s", data: { disable_with: "يرجى الإنتظار..." } %>
+                  
+                  <p class="succes-contact-form-msg">تم التوصّل برسالتك بنجاح.</p>
+                  <p class="failed-contact-form-msg">حدث خطأ أثناء إرسال الرسالة.</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <p>أو يمكنك التواصل معنا عبر هذه البيانات:</p>
+
+          <ul class="list-inline">
+            <li><i class="fa fa-phone"></i> 00-962-79-297-52-33</li>
+            <li><i class="fa fa-envelope-o"></i> <a href="mailto:ekhtsr.in@gmail.com">ekhtsr.in@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- END CONTACT -->

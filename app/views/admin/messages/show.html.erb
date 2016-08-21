@@ -1,0 +1,53 @@
+<% title("عرض رساله") %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-offset-3">
+      <div class="message">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">اسم المرسل</h4>
+          </div>
+          
+          <div class="panel-body">
+            <p><%= @message.name %></p>
+          </div>
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">البريد الإلكتروني</h4>
+          </div>
+          
+          <div class="panel-body">
+            <p><%= @message.email %></p>
+          </div>
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">المحتوى</h4>
+          </div>
+          
+          <div class="panel-body">
+            <p><%= @message.content %></p>
+          </div>
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">التوقيت</h4>
+          </div>
+          
+          <div class="panel-body">
+            <p><%= @message.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></p>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { :action => 'destroy', :id => @message.id }, method: :delete, data: {confirm: "هل أنت متأكد من حذفك لهذه الرساله"}, class: "form-control btn btn-danger btn-lg", style: "height: 46px; text-align: center !important;" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

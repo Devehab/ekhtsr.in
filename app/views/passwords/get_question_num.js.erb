@@ -1,0 +1,10 @@
+$('.question').html('<%= @question %>');
+$('.get-question-num').html('تحديث');
+$('.get-question-num').addClass('edit-password');
+$('.edit-password').removeClass('get-question-num');
+$('.edit-password').attr('form', 'edit_password');
+$('.edit-password').attr('onclick', "$('#edit_password').submit();");
+$('#edit_password').prepend('<input name="username" type="hidden" value="<%= @user.username %>">');
+$('#get-question-num').slideUp();
+$('#get-question-num').remove();
+$('#edit-password').slideDown();

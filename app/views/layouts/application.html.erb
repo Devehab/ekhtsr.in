@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= @title %></title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+
+    <meta name="description" content="إختصِر روابطك الطويله وإجعل منها روابط قوية - قصيرة - سهلة في التعامل مع المستخدمين والمتابعين">
+    <meta name="abstract" content="إختصِر روابطك الطويله واصنع روابط أقوى - أقصر - أسهل">
+    <meta name="keywords" content="إختصار, روابط, إختصرني, تقصير, مكسب, أقوى, أقصر, أسهل">
+    <meta name="Distribution" content="Global">
+    <meta name="author" content="Ali Osm">
+    <meta name="copyright" content="Ali Osm 2015">
+    <meta name="robots" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    <meta name="contact" content="ekhtsr.in@gmail.com">
+    <meta name="generator" content="Brackets">
+    <meta name="language" content="Arabic">
+    <meta name="rating" content="general">
+    <meta name="web_author" content="Ali Osm">
+    <meta name="robots" content="index,follow">
+
+    <link rel="alternate" hreflang="ar" href="http://ekhtsr.in" />
+
+    <!-- روبي, Ruby -->
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body data-spy="scroll" data-target="#myNavbar" data-offset="200">
+    <div id="wrapper">
+      <div id="header">
+        <!-- NAVBAR -->
+          <div id="myNavbar" class="navbar navbar-default navbar-fixed-top" role="nevigation">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">إختصرني</a>
+              </div>
+
+              <div class="navbar-right">
+                <% flash.each do |name, msg| %>
+                  <% if msg.is_a?(String) %>
+                    <div class="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-check"></i></button>
+                      <p class="navbar-text <%= name == 'notice' ? 'success' : 'danger' %>"><%= msg %></p>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <div class="navbar-collapse collapse navbar-left">
+                <ul class="nav navbar-nav">
+                  <% if controller_name == 'pages' and action_name == 'index' %>
+                    <li><a href="#features">مميزات الموقع</a></li>
+                    <li><a href="#reviews">قيل عنّا</a></li>
+                    <li><a href="#contact">تواصل معنا</a></li>
+                  <% end %>
+
+                  <% if user_signed_in? %>
+                    <li class="<%= "active" if controller_name == "user_url" %>">
+                      <%= link_to 'حسابك', dashboard_path, :tabindex => -1%>
+                    </li>
+                  <% end %>
+
+                  <% if user_signed_in? %>
+                    <% if current_user.admin? %>
+                      <li class="<%= "active" if controller_name == "base" or controller_name == "users" or controller_name == "urls" or controller_name == "messages" %>">
+                        <%= link_to sanitize('<i class="fa fa-user-secret fa-lg"></i><span style="display: none;" class="user-secret-text"> لوحة التحكم</span>'), admin_root_path, :tabindex => -1, title: "لوحة التحكم" %>
+                      </li>
+                    <% end %>
+                  
+                    <li class="<%= "active" if controller_name == "registrations" and (action_name == "edit" or action_name == "update") %>">
+                      <%= link_to sanitize('<i class="fa fa-cog fa-lg"></i><span style="display: none;" class="cog-text">تعديل بيانات حسابك</span>'), edit_user_registration_path, :tabindex => -1, title: "تعديل بيانات حسابك" %>
+                    </li>
+                    <li class="<%= "active" if controller_name == "sessions" and action_name == "destroy" %>">
+                      <%= link_to sanitize('<i class="fa fa-sign-out fa-lg"></i><span style="display: none;" class="sign-out-text">تسجيل الخروج</span>'), users_sign_out_path, :method => :delete, :tabindex => -1, title: "تسجيل الخروج" %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <!-- NAVBAR -->
+      </div>
+      
+      <div id="content">
+        <%= yield %>
+      </div>
+      
+      <div id="footer">
+        <!-- FOOTER -->
+          <div class="footer">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-md-4">
+                  <h1>إختصرني</h1>
+                  <p><em>"إختصِر روابطك إلى روابط أقوى - أقصر - أسهل"</em></p>
+                  <p><span class="privacy-policy"><a href="/pages/terms_of_service">شروط إستخدام <span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span></a></span> - <span class="terms-of-service"><a href="/pages/privacy_policy">سياسة الخصوصية  <span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span></a></span></p>
+
+                  <h1>شاركنا!</h1>
+                  <ul class="list-inline share-links">
+                    <li class="wow fadeIn" data-wow-delay="0.2s"><a href="javascript:window.open('http://www.facebook.com/sharer.php?u=http://www.ekhtsr.in/', 'شارك على فيسبوك', 'width=600,height=400,top=50,left=50')" target="_blank" title="شارك على فيسبوك"><i class="fa fa-facebook-official fa-3x"></i></a></li>
+
+                    <li class="wow fadeIn" data-wow-delay="0.3s"><a href="javascript:window.open('http://twitter.com/share?url=http://www.ekhtsr.in/&text=إختصرني&hashtags=إختصرني', 'شارك على تويتر', 'width=600,height=400,top=50,left=50')" target="_blank" title="شارك على تويتر"><i class="fa fa-twitter-square fa-3x"></i></a></li>
+
+                    <li class="wow fadeIn" data-wow-delay="0.4s"><a href="https://plus.google.com/share?url=http://www.ekhtsr.in/" onclick="javascript:window.open(this.href,
+          '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" title="شارك على قوقل+"><i class="fa fa-google-plus-square fa-3x"></i></a></li>
+
+                    <li class="wow fadeIn" data-wow-delay="0.5s"><a href="javascript:window.open('http://www.linkedin.com/shareArticle?mini=true&url=http://www.ekhtsr.in', 'شارك على لينكد ان', 'width=600,height=400,top=50,left=50')" target="_blank" title="شارك على لينكد ان"><i class="fa fa-linkedin-square fa-3x"></i></a></li>
+                  </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                  <h1>إبقى على تواصل معنا:</h1>
+                  <p><i class="fa fa-phone"></i> 00-962-79-297-52-33</p>
+                  <i class="fa fa-envelope-o"></i> <a href="mailto:ekhtsr.in@gmail.com">ekhtsr.in@gmail.com</a>
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                  <h1>عن إختصرني</h1>
+                  <p class="text-justify"><span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span> هو موقع يوفّر خدمة إختصار الروابط بشكل مجاني وبمميزات غير موجودة في مواقع منافسة، كما أنه لا يستخدم الإعلانات داخل الروابط المختصرة عليه أو داخل الموقع، يصلح إستخدام <span class="sq-orange">"</span>إختصرني<span class="sq-orange">"</span> بشكل شخصي في حياتك العملية أو في مشاركة الروابط التي تستخدمها في شروحاتك على اليوتيوب وغيرها من المواقع التي تكون طويلة وتزعج الزوار في كثير من الأحيان.</p>
+                  <p>إختصرني &copy; 2015 - برمجة وتصميم <a href="http://github.com/aliosm" target="_blank">AliOsm</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- END FOOTER -->
+      </div>
+    </div>
+  </body>
+</html>

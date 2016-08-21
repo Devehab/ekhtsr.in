@@ -1,0 +1,309 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+@import 'normalize';
+@import 'bootstrap.min.css';
+@import 'bootstrap.rtl.css';
+@import 'fonts.css';
+@import 'font-awesome';
+@import 'animate.min.css';
+
+* {
+  outline: 0px !important;
+}
+
+h1, p, .panel-title {
+  font-family: "JF-Flat", sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+}
+
+label, .btn-main, .btn-link, .btn-danger {
+  font-family: "JF-Flat", sans-serif;
+}
+
+input, select {
+  font-family: "Tahoma", sans-serif;
+}
+
+em {
+  font-family: "JF-Flat", sans-serif;
+}
+
+th {
+  font-size: 12px;
+}
+
+.sq-black {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.sq-orange {
+  color: rgba(253, 91, 3, 0.65);
+}
+
+/*
+  ID'S
+  */
+#wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+#content {
+  padding-bottom: 280px;
+}
+
+#footer {
+  width: 100%;
+  height: 280px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/*
+  CLASSES
+  */
+.reg-info {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+.field_with_errors label {
+    color: red;
+}
+
+.tab {
+  padding-right: 15px;
+}
+
+/*
+  NAVIGATION
+  */
+.navbar {
+  background-color: #282830 !important;
+  border-bottom: 5px solid #FD5B03 !important;
+  font-family: 'JF-Flat', sans-serif;
+  
+  .navbar-collapse ul.nav li a {
+    color: #cccccc !important;
+  }
+  
+  .navbar-collapse ul.nav li a:hover {
+    color: #ffffff !important;
+    background-color: #646464 !important;
+  }
+  
+  .navbar-header .navbar-brand {
+    color: white !important;
+    font-size: 1.5em;
+    background: #FD5B03 !important;
+  }
+  
+  .navbar-collapse ul.nav li.active a {
+    color: #282830 !important;
+  }
+  
+  .navbar-collapse ul.nav li.active a:hover {
+    color: #282830 !important;
+    background-color: #e7e7e7 !important;
+  }
+  
+  @media (max-width: 768px) {
+    .sign-out-text, .cog-text, .user-secret-text {
+      display: inline !important;
+    }
+    
+    .fa {
+      display: none;
+    }
+  }
+}
+
+/*
+  FOOTER
+  */
+.footer {
+  background-color: #282830;
+  color: white;
+  padding: 30px 0 30px 0;
+  border-top: 5px solid #FD5B03;
+  
+  h1 {
+    font-size: 1.5em;
+  }
+  
+  p {
+    font-size: 0.9em;
+    color: #f2f2f2;
+  }
+  
+  a {
+    font-family: "JF-Flat", sans-serif;
+  }
+  
+  .share-links {
+    li a {
+      opacity: 0.5;
+    }
+    
+    li a:hover {
+      opacity: 1;
+    }
+    
+    li a:focus {
+      outline: none !important;
+      color: inherit;
+    }
+  }
+  
+  @media(max-width: 768px) {
+    padding-top : 10px;
+    
+    h1 {
+      padding-top: 20px;
+    }
+  }
+}
+
+/*
+  FLASH MSG'S
+  */
+.alert {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 14px;
+  padding-right: 17px;
+  
+  .success {
+    color: #3c763d !important;
+  }
+  
+  .danger {
+    color: #a94442 !important;
+  }
+  
+  .close {
+    padding-top: 13px;
+    color: #FD5B03;
+    opacity: 0.7;
+  }
+  
+  .close:hover {
+    opacity: 0.9;
+  }
+  
+  @media (max-width: 768px) {
+    padding-right: 0 !important;
+    text-align: center;
+    
+    .close {
+      display: none;
+    }
+  }
+}
+
+/*
+  PAGINATION
+  */
+.pagination {
+  font-family: "JF-Flat", sans-serif;
+
+  * {
+    border-radius: 0 !important;
+  }
+
+  a {
+    color: #333333;
+  }
+
+  .active a {
+    color: #ffffff;
+    background-color: #282830;
+    border-color: #282830;
+  }
+
+  .active a:hover,
+  .active a:focus {
+    background-color: #282830;
+    border-color: #282830;
+  }
+}
+
+/*
+  BOOTSTRAP COSTOMISATION
+  */
+.btn-main { 
+  color: #000000; 
+  background-color: transparent; 
+  border-color: #FD5B03; 
+  border-width: 2px; 
+}
+ 
+.btn-main:hover, 
+.btn-main:focus, 
+.btn-main:active, 
+.btn-main.active, 
+.open .dropdown-toggle.btn-main { 
+  color: #000000; 
+  background-color: rgba(255, 255, 255, 0.7); 
+  border-color: #FD5B03;
+  outline: 0px !important;
+}
+ 
+.btn-main:active, 
+.btn-main.active, 
+.open .dropdown-toggle.btn-main { 
+  background-image: none;
+  outline: 0px !important;
+}
+
+.btn-link,
+.btn-link:hover,
+.btn-link:active,
+.btn-link:focus {
+  color: inherit;
+}
+
+.txt-main {
+  background-color: transparent;
+  border-color: #FD5B03; 
+  border-width: 2px; 
+}
+
+.txt-main:focus {
+  border-color: #FD5B03;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.panel-heading {
+  background: #282830 !important;
+  border-bottom: 5px solid #FD5B03 !important;
+  color: white !important;
+  padding: 15px;
+}
+
+.navbar-collapse {
+  border-top: none;
+}
+
+.panel-default, .panel-heading, panel-footer {
+  border-radius: 0 !important;
+}
+
+.panel-body, .panel-heading {
+  text-align: center;
+}

@@ -1,0 +1,21 @@
+// Place all the styles related to the errors controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.page-not-found, .internal-server-error, .unprocessable {
+  padding-top: 20px;
+  
+  p {
+    margin-bottom: 0px;
+  }
+  
+  .msg {
+    font-size: 1.3em;
+  }
+
+  .panel-title {
+    font-size: 2.5em;
+    line-height: 1.42857143;
+    font-weight: 500 !important;
+  }
+}

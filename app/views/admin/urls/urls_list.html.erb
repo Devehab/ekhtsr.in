@@ -1,0 +1,47 @@
+<% title("روابط المستخدمين المختصرة") %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="urls-list">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">روابط المستخدمين المختصرة</h4>
+          </div>
+
+          <div class="panel-body">
+            <div class="text-center top-pagination">
+              <%= paginate @urls_list %>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                  <th>الرابط</th>
+                  <th>عدد الزيارات</th>
+                  <th>التوقيت</th>
+                  <th>المستخدم</th>
+                  <th>حذف</th>
+                </tr>
+
+                <% @urls_list.each do |url| %>
+                  <tr>
+                    <td><a href="<%= url.url %>" target="_blank"><%= url.title.blank? ? url.url : url.title %></a></td>
+                    <td><%= url.visit_counter %></td>
+                    <td><%= url.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                    <td><%= link_to url.user.username, edit_admin_user_path(url.user) %></td>
+                    <td><%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { :action => 'destroy_url', :id => url.id }, method: :delete, data:{confirm: "هل أنت متأكد من حذفك لهذا الرابط؟"}, class: "btn btn-danger btn-xs" %></td>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+            
+            <div class="text-center bottom-pagination">
+              <%= paginate @urls_list %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

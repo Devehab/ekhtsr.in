@@ -1,0 +1,132 @@
+<% title("تعديل المستخدم #{@user.username}") %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+      <div class="admin-user-edit-form">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">تعديل المستخدم <%= @user.username %></h4>
+          </div>
+
+          <div class="panel-body">
+            <%= form_for [:admin, @user], :html => { role: 'form', id: 'edit_user' } do |f| %>
+              <div class="form-group">
+                <%= f.label :username, 'اسم المستخدم' %>
+                <%= f.text_field :username, autofocus: true, class: 'form-control txt-main', maxlength: 16, required: :required %>
+                <p class="reg-info text-right">يجب أن يتكوّن من 3 إلى 16 خانة [أ-ي - A-Z - a-z].</p>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :password, 'كلمة المرور' %>
+                <%= f.password_field :password, autocomplete: "off", class: 'form-control txt-main', maxlength: 128 %>
+                <p class="reg-info text-right">أتركه فارغًا إذا كنت لا تريد تغييرها.</p>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :password_confirmation, 'تأكيد كلمة المرور' %>
+                <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control txt-main', maxlength: 128 %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :question_num, 'سؤال الأمان' %>
+                <%= f.select :question_num, [['ما هو اسم أول مدرس أعطاك علامة الرسوب؟', 1], 
+                                             ['ما هو المكان الذي تم عقد زفافك فيه؟', 2], 
+                                             ['ما هي أقرب بلدة يعيش فيها قريب لك؟', 3], 
+                                             ['في أي وقت من اليوم ولِدت؟', 4], 
+                                             ['ما هو لقبك في الطفولة؟', 5], 
+                                             ['ما هي الدولة أو المدينة التي عملت فيها لأول مرة؟', 6], 
+                                             ['ما هو الرقم الثالث والخامس والسابع من رقم هاتفك؟', 7],
+                                             ['من كان بطل طفولتك؟', 8], 
+                                             ['ما هو أفضل موقع تستخدمه؟', 9], 
+                                             ['ما هو رقم جواز سفرك؟', 10]], {:include_blank => 'قم بإختيار سؤال أمان'}, { class: 'form-control txt-main', required: :required } %>
+              </div>
+            
+              <div class="form-group">
+                <%= f.label :answer, 'الإجابة' %>
+                <%= f.text_field :answer, class: 'form-control txt-main', maxlength: 50, required: :required %>
+                <p class="reg-info text-right">50 حرفًا على الأكثر.</p>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-3"></div>
+
+                <div class="col-md-3 text-center">
+                  <%= f.check_box :locked %> <%= f.label :locked, "مقفل ؟", :tabindex => 5 %>
+                </div>
+
+                <div class="col-md-3 text-center">
+                  <%= f.check_box :admin %> <%= f.label :admin, "مدير ؟", :tabindex => 6 %>
+                </div>
+
+                <div class="col-md-3"></div>
+              </div>
+            </div>
+          
+            <div class="panel-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <%= f.submit "تعديل المستخدم", :tabindex => 7, class: "form-control btn btn-main btn-md", style: "height: 46px;", form: 'edit_user' %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= link_to "العودة إلى المستخدمين", admin_users_path, :tabindex => -1, class: "form-control btn btn-link btn-lg", style: "height: 46px;" %>
+                </div>
+              </div>
+            <% end %>
+
+              <% unless current_user.id == @user.id %>
+                <div class="form-group" style="margin-bottom: 0px; margin-top: 15px;">
+                  <%= button_to "حذف المستخدم", "/admin/users/#{@user.id}", data: { :confirm => "هل أنت متأكد من حذف هذا المستخدم ؟" }, :method => :delete, :tabindex => 8, class: "form-control btn btn-danger btn-lg", style: "height: 46px;" %>
+                </div>
+              <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="urls-list" style="padding-top: 0px !important;">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">روابط المستخدم <%= @user.username %></h4>
+          </div>
+
+          <div class="panel-body">
+            <div class="text-center top-pagination">
+              <%= paginate @urls_list %>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                  <th>الرابط</th>
+                  <th>عدد الزيارات</th>
+                  <th>التوقيت</th>
+                  <th>المستخدم</th>
+                  <th>حذف</th>
+                </tr>
+
+                <% @urls_list.each do |url| %>
+                  <tr>
+                    <td><a href="<%= url.url %>" target="_blank"><%= url.title.blank? ? url.url : url.title %></a></td>
+                    <td><%= url.visit_counter %></td>
+                    <td><%= url.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %></td>
+                    <td><%= link_to url.user.username, edit_admin_user_path(url.user) %></td>
+                    <td><%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { action: 'destroy_url', :id => url.id, controller: :urls }, method: :delete, data: {confirm: "هل أنت متأكد من حذفك لهذا الرابط؟"}, class: "btn btn-danger btn-xs" %></td>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+            
+            <div class="text-center bottom-pagination">
+              <%= paginate @urls_list %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

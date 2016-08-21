@@ -1,0 +1,12 @@
+$('.error-shorten-form-msg').slideUp("slow");
+$('.shorten-url-form input').val('');
+$('#shorten_url_form_auto_focus').focus();
+$('.user-urls h1').remove();
+$('.user-urls h2').remove();
+$('.user-urls').prepend('<div class="<%= @user_url.unique_id %> panel panel-default"></div>');
+$('.<%= @user_url.unique_id %>').css('display', 'none');
+$('.<%= @user_url.unique_id %>').append('<div class="panel-heading"><h5 class="panel-title"><%= @user_url.title.blank? ? @user_url.url : @user_url.title %></h5></div><div class="panel-body" style="display: block;"><div class="row"><div class="col-lg-12 col-md-12"><div class="row"><div class="col-lg-6 col-md-6"><p>رابطك</p></div><div class="col-lg-6 col-md-6"><p class="user-url"><%= link_to @user_url.url, @user_url.url, target: '_blank' %></p></div></div><div class="row"><div class="col-lg-6 col-md-6"><p>الإختصار</p></div><div class="col-lg-6 col-md-6"><p><%= link_to sanitize('ekhtsr.in/<span style="color: red">' + @user_url.unique_id + '</span>'), 'http://ekhtsr.in/' + @user_url.unique_id, target: '_blank' %></p></div></div><div class="row"><div class="col-lg-6 col-md-6"><p>عدد الزيارات</p></div><div class="col-lg-6 col-md-6"><p><%= @user_url.visit_counter %></p></div></div><div class="row"><div class="col-lg-6 col-md-6"><p class="desktop-margin-only">كلمة المرور</p></div><div class="col-lg-6 col-md-6"><p class="url-password"><%= @user_url.password.blank? ? 'لم يتم وضع كلمة مرور' : @user_url.password %></p></div></div></div></div></div><div class="panel-footer"><%= @user_url.created_at.strftime("%Y-%m-%d <|> %H:%M:%S") %><span style="float: right;"><%= link_to sanitize('<i class="fa fa-pencil"></i> &middot; تعديل'), { :action => 'edit', :id => @user_url.id }, method: :get, class: "btn btn-primary btn-xs" %> &middot; <%= link_to sanitize('<i class="fa fa-trash-o"></i> &middot; حذف'), { :action => 'destroy', :id => @user_url.id }, method: :delete, data:{confirm: "هل أنت متأكد من حذفك لهذا الرابط؟"}, class: "btn btn-danger btn-xs", remote: true, onclick: 'deleteUrl(this)' %></span></div>');
+$('.<%= @user_url.unique_id %>').slideDown();
+$('.<%= @user_url.unique_id %> .panel-body').slideDown(1000);
+$('.<%= @user_url.unique_id %> .panel-footer').slideDown(1000);
+$('.btn-submit-user-form').val('إختصِر');

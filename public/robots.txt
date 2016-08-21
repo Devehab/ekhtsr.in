@@ -1,0 +1,14 @@
+# hello Mr spy, you are not a robot, what are you doing here then
+#مرحبًا صديقي الجاسوس، ماذا تفعل هنا؟
+
+User-agent: *
+Disallow:
+Allow: /
+Disallow: /admin*
+Disallow: /users*
+Disallow: /dashboard*
+Disallow: /password
+Disallow: /p_go
+Disallow: /message
+
+Sitemap: http://ekhtsr.in/pages/sitemap.xml

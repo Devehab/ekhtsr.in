@@ -1,0 +1,82 @@
+// Place all the styles related to the UserUrl controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.dashboard {
+  padding-top: 73px;
+  
+  label, .btn-main {
+    font-size: 1.5em;
+  }
+  
+  .bottom-pagination .pagination {
+    margin-top: 0px;
+  }
+  
+  .shorten-url-form, .edit-shorten-url-form, .url-password-form {
+    .panel-title {
+      font-size: 2.5em;
+      line-height: 1.42857143;
+      font-weight: 500 !important;
+    }
+    
+    .error-shorten-form-msg {
+      color: brown;
+      font-family: "JF-Flat", sans-serif;
+      padding-right: 10px;
+      display: none;
+    }
+    
+    @media(max-width: 768px) {
+      .error-shorten-form-msg {
+        text-align: center;
+        margin-top: 15px;
+      }
+    }
+  }
+  
+  .user-urls {
+    h1, h2 {
+      font-family: "JF-Flat", sans-serif;
+      text-align: center;
+    }
+    
+    h2 {
+      font-size: 1.7em;
+      color: #666666;
+    }
+    
+    
+    .panel .panel-body .row .row:last-of-type {
+      @media(min-width: 768px) {
+        p {
+          margin-bottom: 0px;
+        }
+      }
+
+      @media(max-width: 768px) {
+        .mobile-margin-only {
+          margin-bottom: 0px;
+        }
+      }
+    }
+    
+    .panel-title {
+      word-break: break-all;
+    }
+    
+    .panel-body {
+      display: none;
+    }
+    
+    .panel-footer {
+      font-family: "JF-Flat", sans-serif;
+      text-align: left;
+      display: none;
+    }
+    
+    .user-url, .url-password {
+      word-break: break-all;
+    }
+  }
+}

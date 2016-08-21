@@ -1,0 +1,63 @@
+<% title('تعديل بيانات حسابك') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3">
+      <div class="user-edit-form">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">تعديل بيانات حسابك</h4>
+          </div>
+          
+          <div class="panel-body">
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+              <div class="form-group">
+                <%= f.label :username, 'اسم المستخدم' %>
+                <%= f.text_field :username, autofocus: true, class: 'form-control txt-main', maxlength: 16, required: :required %>
+                <p class="reg-info text-right">يجب أن يتكوّن من 3 إلى 16 خانة [أ-ي - A-Z - a-z].</p>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :password, 'كلمة المرور' %>
+                <%= f.password_field :password, autocomplete: "off", class: 'form-control txt-main', maxlength: 128 %>
+                <p class="reg-info text-right">أتركه فارغًا إذا كنت لا تريد تغييرها.</p>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :password_confirmation, 'تأكيد كلمة المرور' %>
+                <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control txt-main', maxlength: 128 %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :question_num, 'سؤال الأمان' %>
+                <%= f.select :question_num, [['ما هو اسم أول مدرس أعطاك علامة الرسوب؟', 1], 
+                                             ['ما هو المكان الذي تم عقد زفافك فيه؟', 2], 
+                                             ['ما هي أقرب بلدة يعيش فيها قريب لك؟', 3], 
+                                             ['في أي وقت من اليوم ولِدت؟', 4], 
+                                             ['ما هو لقبك في الطفولة؟', 5], 
+                                             ['ما هي الدولة أو المدينة التي عملت فيها لأول مرة؟', 6], 
+                                             ['ما هو الرقم الثالث والخامس والسابع من رقم هاتفك؟', 7],
+                                             ['من كان بطل طفولتك؟', 8], 
+                                             ['ما هو أفضل موقع تستخدمه؟', 9], 
+                                             ['ما هو رقم جواز سفرك؟', 10]], {:include_blank => 'قم بإختيار سؤال أمان'}, { class: 'form-control txt-main', required: :required } %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :answer, 'الإجابة' %>
+                <%= f.text_field :answer, class: 'form-control txt-main', maxlength: 50, required: :required %>
+                <p class="reg-info text-right">50 حرفًا على الأكثر.</p>
+              </div>
+
+              <%= f.label :current_password, 'كلمة المرور الحالية' %>
+              <%= f.password_field :current_password, autocomplete: "off", class: 'form-control txt-main', maxlength: 128, required: :required %>
+            <% end %>
+          </div>
+          
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-main btn-md" form="edit_user">تحديث</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

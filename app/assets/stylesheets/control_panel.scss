@@ -1,0 +1,44 @@
+.control-panel, .message {
+  padding-top: 73px;
+  font-family: "JF-Flat", sans-serif;
+  
+  * {
+    text-align: right !important;
+  }
+  
+  .panel .panel-body {
+    padding-bottom: 0px;
+  }
+  
+  .last_signins, .last_signups, .admins, .last_a_urls, .last_urls {
+    padding: 0px;
+    
+    .table {
+      margin-bottom: 0px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .users-search-bottoms {
+      .form-control {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.a-urls-list, .urls-list, .messages-list {
+  font-family: "JF-Flat", sans-serif;
+  
+  td {
+    text-align: right;
+  }
+  
+  .panel-body {
+    padding: 0px;
+    
+    .table {
+      margin-bottom: 0px;
+    }
+  }
+}
