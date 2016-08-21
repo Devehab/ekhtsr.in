@@ -1,5 +1,5 @@
 # ekhtsr.in
-ekhtsr.in is shortcut links site
+ekhtsr.in is shortcut links site [http://ekhtsr.in](http://ekhtsr.in)
 
 ------------
 
